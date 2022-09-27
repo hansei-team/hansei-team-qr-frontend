@@ -6,6 +6,7 @@ export const colors = {
   primary: {
     default: '#3E7FFF',
     lighter: '#8EB5FF',
+    darker: '#2C63CC',
   },
 
   text: {
