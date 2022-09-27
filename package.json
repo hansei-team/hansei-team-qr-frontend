@@ -12,6 +12,8 @@
     "format": "prettier \"src/**/*.{ts,tsx,js,jsx,json}\" --write"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.4.1"
