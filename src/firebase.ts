@@ -1,5 +1,6 @@
 import { getAnalytics } from 'firebase/analytics';
 import { initializeApp } from 'firebase/app';
+import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyC4vMGo5nVjEoFKMgYQQ1pz9SdFbuUD20I',
@@ -13,3 +14,5 @@ const firebaseConfig = {
 
 export const app = initializeApp(firebaseConfig);
 export const analytics = getAnalytics(app);
+export const auth = getAuth(app);
+auth.languageCode = 'ko';
