@@ -29,6 +29,10 @@ export const ButtonElement = styled.button<{
     background: activeBackground || colors.primary.darker,
   },
 
+  '&:disabled': {
+    background: colors.primary.lighter,
+  },
+
   '& > img': {
     marginRight: '1.2rem',
   },
