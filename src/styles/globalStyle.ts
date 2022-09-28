@@ -30,4 +30,8 @@ export const globalStyle = css`
     width: 100%;
     height: 100%;
   }
+
+  .grecaptcha-badge {
+    visibility: hidden;
+  }
 `;
