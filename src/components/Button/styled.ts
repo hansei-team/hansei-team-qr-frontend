@@ -10,7 +10,7 @@ export const ButtonElement = styled.button<{
   fontWeight?: number;
 }>(({ color, background, activeBackground, borderColor, fontWeight }) => ({
   width: '100%',
-  height: '4.8rem',
+  height: '5.2rem',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -27,6 +27,10 @@ export const ButtonElement = styled.button<{
 
   '&:active': {
     background: activeBackground || colors.primary.darker,
+  },
+
+  '&:disabled': {
+    background: colors.primary.lighter,
   },
 
   '& > img': {
