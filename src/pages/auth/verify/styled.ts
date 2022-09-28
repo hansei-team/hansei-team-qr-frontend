@@ -21,7 +21,6 @@ export const TextFieldContainer = styled.div({
 
 export const TextFieldButtonContainer = styled.div({
   display: 'flex',
-  alignItems: 'center',
 
   '& > div': {
     width: '100%',
@@ -29,6 +28,7 @@ export const TextFieldButtonContainer = styled.div({
   },
 
   '& > button': {
-    width: '20%',
+    width: '30%',
+    marginTop: '2.2rem',
   },
 });
