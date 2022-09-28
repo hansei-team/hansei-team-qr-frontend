@@ -8,13 +8,15 @@ export interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputEleme
   isError?: boolean;
 }
 
-export const TextField: React.FC<TextFieldProps> = ({ label, message, isError, ...props }) => (
-  <S.TextFieldContainer isError={isError}>
-    <S.TextFieldLabel>{label}</S.TextFieldLabel>
-    <S.TextFieldInputElementWrapper>
-      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-      <S.TextFieldInputElement {...props} />
-    </S.TextFieldInputElementWrapper>
-    {message && <S.TextFieldMessage>{message}</S.TextFieldMessage>}
-  </S.TextFieldContainer>
+export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(
+  ({ label, message, isError, ...props }, ref) => (
+    <S.TextFieldContainer isError={isError}>
+      <S.TextFieldLabel>{label}</S.TextFieldLabel>
+      <S.TextFieldInputElementWrapper>
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
+        <S.TextFieldInputElement ref={ref} {...props} />
+      </S.TextFieldInputElementWrapper>
+      {message && <S.TextFieldMessage>{message}</S.TextFieldMessage>}
+    </S.TextFieldContainer>
+  )
 );
