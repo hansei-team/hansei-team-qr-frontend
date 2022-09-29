@@ -32,9 +32,9 @@ export const LotteryPage: React.FC = () => {
   return (
     <div>
       <section>
-        <PageLayout.Title>{user?.data.name}님의 추첨번호는?</PageLayout.Title>
+        <PageLayout.Title>{user?.name}님의 추첨번호는?</PageLayout.Title>
         <S.LotteryNumberContainer>
-          <S.LotteryNumberCircle>{user?.data.lotteryNumber}</S.LotteryNumberCircle>
+          <S.LotteryNumberCircle>{user?.lotteryNumber}</S.LotteryNumberCircle>
           <S.LotteryNumberText>
             자세한 상품 공개와 경품 추첨은
             <br />

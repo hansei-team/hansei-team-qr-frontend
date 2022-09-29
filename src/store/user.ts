@@ -1,4 +1,3 @@
-import { User } from 'firebase/auth';
 import { atom } from 'recoil';
 
 export interface UserData {
@@ -6,10 +5,7 @@ export interface UserData {
   lotteryNumber: number;
 }
 
-export const userAtom = atom<{
-  data: UserData;
-  account: User;
-} | null>({
+export const userAtom = atom<UserData | null>({
   key: 'user',
   default: null,
 });
