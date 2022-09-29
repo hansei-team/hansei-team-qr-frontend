@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { PieChart } from 'react-minimal-pie-chart';
 import { toast } from 'react-toastify';
 
 import { onValue, ref, set } from 'firebase/database';
@@ -11,6 +12,7 @@ import { useRequest } from '../../hooks';
 import * as S from './styled';
 
 interface Vote {
+  showResult: boolean;
   isOpen: boolean;
   openAt: string;
 }
@@ -19,13 +21,20 @@ interface VoteOptions {
   key: string;
   order: number;
   text: [string, string];
+  color: string;
+}
+
+interface VoteResult {
+  selected: string;
+  submmitedAt: number;
 }
 
 export const VotePage: React.FC = () => {
   const [select, setSelect] = useState<string | null>(null);
-  const [vote, setVote] = useState<Vote>({ isOpen: false, openAt: '' });
+  const [vote, setVote] = useState<Vote>({ isOpen: false, openAt: '', showResult: false });
   const [isAlreadyVoted, setIsAlreadyVoted] = useState<boolean>(false);
   const [voteOptions, setVoteOptions] = useState<VoteOptions[]>([]);
+  const [voteResults, setVoteResults] = useState<Record<string, number>>({});
   const BASE64_DECODER_URL = 'https://www.convertstring.com/ko/EncodeDecode/Base64Decode';
   const voteRef = ref(database, 'vote');
   const voteOptionsRef = ref(database, 'voteOptions');
@@ -61,9 +70,8 @@ export const VotePage: React.FC = () => {
   const handleOnSubmitVote = async () => {
     if (!voteOptions.find((option) => option.key === select) || select === null)
       return toast.error('올바른 가수를 선택해주세요');
-    if (!auth.currentUser) {
-      return toast.error('로그인 후 이용해주세요');
-    }
+    if (!auth.currentUser) return toast.error('로그인 후 이용해주세요');
+    if (vote.showResult) return toast.error('이미 투표가 마감됐어요 :(');
 
     mutate({ uid: auth.currentUser.uid, selected: select });
   };
@@ -89,7 +97,6 @@ export const VotePage: React.FC = () => {
 
       setVoteOptions(options);
     });
-
     const unsubscribeMyVote = onValue(
       ref(database, `voteResults/${auth.currentUser.uid}`),
       (snapshot) => {
@@ -104,13 +111,68 @@ export const VotePage: React.FC = () => {
         }
       }
     );
+    const unsubscribeVoteResults = onValue(voteResultsRef, (snapshot) => {
+      const results = snapshot.val();
+      const formattedResult = Object.values(voteOptions).reduce(
+        (prev: Record<string, number>, curr) => {
+          // eslint-disable-next-line no-param-reassign
+          prev[curr.key] = Object.values<VoteResult>(results).filter(
+            (result) => result.selected === curr.key
+          ).length;
+
+          return prev;
+        },
+        {}
+      );
+
+      setVoteResults(formattedResult);
+    });
 
     return () => {
       unsubscribeVote();
       unsubscribeVoteOptions();
       unsubscribeMyVote();
+      unsubscribeVoteResults();
     };
-  }, []);
+  }, [voteOptions]);
+
+  if (vote.showResult)
+    return (
+      <div>
+        <PageLayout.Title>
+          나는 가수다,
+          <br />
+          투표 결과는 아래와 같아요!
+        </PageLayout.Title>
+        <S.VoteResultTextContainer>
+          <S.VoteResultText isWin={false}>
+            총 투표수 : {/* eslint-disable-next-line no-return-assign, no-param-reassign */}
+            {Object.values(voteOptions).reduce((prev, curr) => (prev += voteResults[curr.key]), 0)}
+            표
+          </S.VoteResultText>
+          {voteOptions.map((option) => {
+            const voteAmount = voteResults[option.key];
+            const isWin = Math.max(...Object.values(voteResults)) === voteAmount;
+            return (
+              <S.VoteResultText isWin={isWin} key={`${option.key}_result`}>
+                {option.text[0]} 득표수 : {voteAmount}표
+              </S.VoteResultText>
+            );
+          })}
+        </S.VoteResultTextContainer>
+        <S.VotePieChartWrapper>
+          <PieChart
+            label={({ dataEntry }) => `${dataEntry.title} (${dataEntry.percentage}%)`}
+            labelStyle={{ fill: 'white', fontSize: '0.8rem' }}
+            data={voteOptions.map((option) => ({
+              title: option.text[0],
+              value: voteResults[option.key],
+              color: option.color,
+            }))}
+          />
+        </S.VotePieChartWrapper>
+      </div>
+    );
 
   if (!vote.isOpen)
     return (

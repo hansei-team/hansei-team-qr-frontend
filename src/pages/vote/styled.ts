@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 
 import styled from '@emotion/styled';
 
+import { colors } from '../../styles';
+
 export const ComingSoonContainer = styled.div({
   width: '100%',
   height: '100%',
@@ -60,4 +62,26 @@ export const VoteDescriptionText = styled.p({
   fontWeight: 400,
   marginTop: '1.2rem',
   color: '#51525B',
+});
+
+export const VoteResultText = styled.p<{ isWin: boolean }>(({ isWin }) => ({
+  fontSize: '1.6rem',
+  fontWeight: isWin ? 500 : 400,
+  color: isWin ? '#159330' : '#51525B',
+}));
+
+export const VoteResultTextContainer = styled.div({
+  marginTop: '1.2rem',
+
+  '& > p:not(:last-child)': {
+    marginBottom: '0.6rem',
+  },
+});
+
+export const VotePieChartWrapper = styled.div({
+  width: '100%',
+  background: colors.foreground,
+  marginTop: '6rem',
+  padding: '6rem',
+  borderRadius: '1.6rem',
 });
