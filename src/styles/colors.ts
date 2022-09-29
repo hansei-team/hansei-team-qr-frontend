@@ -13,4 +13,9 @@ export const colors = {
     primary: '#000000',
     secondary: '#7D8087',
   },
+
+  navbar: {
+    color: '#C9C9C9',
+    activeColor: '#3E4356',
+  },
 };
