@@ -8,7 +8,7 @@ import { useSetRecoilState } from 'recoil';
 import { getUserData } from './api';
 import { AppLayout, PageLayout, SuspenseFallback } from './components';
 import { auth } from './firebase';
-import { AuthVerifyPage, HomePage, LotteryPage, MainPage } from './pages';
+import { AuthVerifyPage, HomePage, LotteryPage, MainPage, VotePage } from './pages';
 import { userAtom } from './store';
 import { globalStyle } from './styles';
 
@@ -57,7 +57,7 @@ const App: React.FC = () => {
           >
             <Route path="home" element={<HomePage />} />
             <Route path="lottery" element={<LotteryPage />} />
-            <Route path="vote" element={<PageLayout.Title>여기는 투표 페이지</PageLayout.Title>} />
+            <Route path="vote" element={<VotePage />} />
           </Route>
         </Routes>
       )}
