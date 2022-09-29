@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 
-import { Global } from '@emotion/react';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { useSetRecoilState } from 'recoil';
 
@@ -10,7 +9,6 @@ import { AppLayout, PageLayout, SuspenseFallback } from './components';
 import { auth } from './firebase';
 import { AuthVerifyPage, HomePage, LotteryPage, MainPage, VotePage } from './pages';
 import { userAtom } from './store';
-import { globalStyle } from './styles';
 
 const App: React.FC = () => {
   const setUser = useSetRecoilState(userAtom);
@@ -32,7 +30,6 @@ const App: React.FC = () => {
 
   return (
     <BrowserRouter>
-      <Global styles={globalStyle} />
       {!init ? (
         <SuspenseFallback />
       ) : (

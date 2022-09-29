@@ -2,14 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { ToastContainer } from 'react-toastify';
 
+import { Global } from '@emotion/react';
 import * as Sentry from '@sentry/react';
 import { BrowserTracing } from '@sentry/tracing';
 import { RecoilRoot } from 'recoil';
 
 import App from './App';
+import { ErrorBoundaryFallback } from './components';
+import { globalStyle } from './styles';
 
 import './firebase';
-
 import 'react-toastify/dist/ReactToastify.css';
 
 Sentry.init({
@@ -21,15 +23,18 @@ Sentry.init({
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <RecoilRoot>
-      <ToastContainer
-        position="top-center"
-        theme="light"
-        autoClose={3000}
-        closeButton={false}
-        newestOnTop
-      />
-      <App />
-    </RecoilRoot>
+    <Global styles={globalStyle} />
+    <Sentry.ErrorBoundary fallback={ErrorBoundaryFallback}>
+      <RecoilRoot>
+        <ToastContainer
+          position="top-center"
+          theme="light"
+          autoClose={3000}
+          closeButton={false}
+          newestOnTop
+        />
+        <App />
+      </RecoilRoot>
+    </Sentry.ErrorBoundary>
   </React.StrictMode>
 );
