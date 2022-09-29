@@ -22,11 +22,10 @@ export const LotteryPage: React.FC = () => {
   const [gifts, setGifts] = useState<Gift[]>([]);
 
   useEffect(() => {
-    const starCountRef = ref(database, `gifts`);
-    onValue(starCountRef, (snapshot) => {
-      const data = snapshot.val();
-      setGifts(data);
-    });
+    const giftsRef = ref(database, `gifts`);
+    const unsubscribe = onValue(giftsRef, (snapshot) => setGifts(snapshot.val()));
+
+    return () => unsubscribe();
   }, []);
 
   return (
