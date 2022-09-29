@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { FirebaseError } from 'firebase/app';
@@ -34,6 +35,7 @@ export const AuthVerifyPage: React.FC = () => {
     expiredAt: number;
   }>();
   const setUser = useSetRecoilState(userAtom);
+  const navigate = useNavigate();
 
   const { mutate: sendVerifySMS, isLoading: isSendingVerifySMS } = useRequest(
     async () => {
@@ -80,7 +82,8 @@ export const AuthVerifyPage: React.FC = () => {
       onSuccess: ({ data, account }) => {
         setUser({ data, account });
         toast.success('추첨번호 발급이 완료되었어요!');
-        toast.info(`테스트: 추첨코드 - ${data.lotteryNumber}`);
+        navigate('/home');
+        // toast.info(`테스트: 추첨코드 - ${data.lotteryNumber}`);
       },
       onError: (error) => {
         if (!(error instanceof FirebaseError)) return toast.error('일시적인 오류가 발생했어요');
