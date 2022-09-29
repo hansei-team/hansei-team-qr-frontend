@@ -5,12 +5,13 @@ import * as S from './styled';
 export interface EmojiCardProps {
   emoji: string;
   text: [string, string];
+  style?: React.CSSProperties;
   isHover?: boolean;
   isImage?: boolean;
 }
 
-export const EmojiCard: React.FC<EmojiCardProps> = ({ emoji, text, isHover, isImage }) => (
-  <S.EmojiCardContainer isHover={isHover}>
+export const EmojiCard: React.FC<EmojiCardProps> = ({ emoji, text, style, isHover, isImage }) => (
+  <S.EmojiCardContainer isHover={isHover} style={style}>
     <S.EmojiWrapper>
       {isImage ? <S.EmojiImage src={emoji} width="24px" height="24px" /> : emoji}
     </S.EmojiWrapper>
