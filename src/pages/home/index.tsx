@@ -16,6 +16,7 @@ export const HomePage: React.FC = () => {
     <div>
       <EmojiCard
         isImage
+        color="#FFB26B"
         emoji={HelloEmojiPNG}
         text={['오늘은 한세어울림마당!', `${user?.data.name}님, 즐거운 축제되세요!`]}
         style={{ marginTop: '2.8rem' }}

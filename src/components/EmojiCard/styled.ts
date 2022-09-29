@@ -17,16 +17,16 @@ export const EmojiCardContainer = styled.div<{ isHover?: boolean }>(({ isHover }
   }),
 }));
 
-export const EmojiWrapper = styled.div({
+export const EmojiWrapper = styled.div<{ color: string }>((props) => ({
   width: '4.8rem',
   height: '4.8rem',
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   borderRadius: '50%',
-  background: '#FFB26B',
+  background: props.color,
   fontSize: '2.2rem',
-});
+}));
 
 export const EmojiImage = styled.img({});
 
