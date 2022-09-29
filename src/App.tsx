@@ -6,7 +6,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { useSetRecoilState } from 'recoil';
 
 import { getUserData } from './api';
-import { AppLayout, GlobalNavigationBar, PageLayout } from './components';
+import { AppLayout, PageLayout } from './components';
 import { auth } from './firebase';
 import { AuthVerifyPage, MainPage } from './pages';
 import { userAtom } from './store';
