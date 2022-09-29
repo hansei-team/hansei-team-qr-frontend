@@ -1,5 +1,6 @@
 export const colors = {
   background: '#FFFFFF',
+  foreground: '#F6F7FB',
   outline: '#EBEBEB',
   error: '#FF4747',
 
