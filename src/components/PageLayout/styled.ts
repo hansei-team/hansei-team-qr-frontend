@@ -5,6 +5,7 @@ export const PageLayoutContainer = styled.div({
   display: 'flex',
   flexDirection: 'column',
   padding: '3.2rem 2.4rem',
+  overflow: 'auto',
 });
 
 export const IconTitle = styled.img({
