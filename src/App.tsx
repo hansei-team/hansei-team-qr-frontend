@@ -19,7 +19,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const handleOnAuthStateChanged = async (user: User) => {
       const data = await getUserData(user.uid);
-      if (data) setUser({ data, account: user });
+      if (data) setUser(data);
     };
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {

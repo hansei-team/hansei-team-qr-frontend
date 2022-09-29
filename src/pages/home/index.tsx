@@ -18,7 +18,7 @@ export const HomePage: React.FC = () => {
         isImage
         color="#FFB26B"
         emoji={HelloEmojiPNG}
-        text={['오늘은 한세어울림마당!', `${user?.data.name}님, 즐거운 축제되세요!`]}
+        text={['오늘은 한세어울림마당!', `${user?.name}님, 즐거운 축제되세요!`]}
         style={{ marginTop: '2.8rem' }}
       />
       <S.PosterImage src={PosterPNG} alt="한세어울림마당 포스터" />

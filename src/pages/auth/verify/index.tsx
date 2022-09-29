@@ -62,10 +62,7 @@ export const AuthVerifyPage: React.FC = () => {
     }
   );
 
-  const { mutate: getLottery, isLoading: isSubmitting } = useRequest<
-    AuthVerifyInputs,
-    { data: UserData; account: User }
-  >(
+  const { mutate: getLottery, isLoading: isSubmitting } = useRequest<AuthVerifyInputs, UserData>(
     async (data: AuthVerifyInputs) => {
       if (!verifyData) throw new Error('인증 정보를 찾을 수 없어요. 새로고침 후 다시 시도해주세요');
       const { confirmResult, expiredAt } = verifyData;
@@ -73,14 +70,14 @@ export const AuthVerifyPage: React.FC = () => {
 
       const { user: account } = await confirmResult.confirm(data.pinCode);
       const userData = await getUserData(account.uid);
-      if (userData) return { data: userData, account };
+      if (userData) return userData;
 
       const newUserData = await createUserData(account.uid, data.name);
-      return { data: newUserData, account };
+      return newUserData;
     },
     {
-      onSuccess: ({ data, account }) => {
-        setUser({ data, account });
+      onSuccess: (userData) => {
+        setUser(userData);
         toast.success('추첨번호 발급이 완료되었어요!');
         navigate('/home');
         // toast.info(`테스트: 추첨코드 - ${data.lotteryNumber}`);
