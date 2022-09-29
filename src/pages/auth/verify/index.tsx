@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import * as Sentry from '@sentry/react';
 import { FirebaseError } from 'firebase/app';
 import { ConfirmationResult, RecaptchaVerifier, signInWithPhoneNumber, User } from 'firebase/auth';
 import { useRecoilState } from 'recoil';
@@ -12,6 +13,7 @@ import { Button, PageLayout, TextField } from '../../../components';
 import { auth } from '../../../firebase';
 import { useRequest } from '../../../hooks';
 import { userAtom, UserData } from '../../../store';
+import { CustomException } from '../../../utils';
 
 import * as S from './styled';
 
@@ -41,7 +43,7 @@ export const AuthVerifyPage: React.FC = () => {
     async () => {
       const data = await trigger(['name', 'phone']);
       const { phone } = getValues();
-      if (!data) throw new Error('');
+      if (!data) throw new CustomException('입력란을 모두 채워주세요');
 
       const recaptcha = new RecaptchaVerifier('recaptcha-container', { size: 'invisible' }, auth);
       await recaptcha.verify();
@@ -56,8 +58,12 @@ export const AuthVerifyPage: React.FC = () => {
         toast.success('문자 발송이 완료되었어요');
       },
       onError: (error) => {
-        console.log(error);
-        toast.error('일시적인 오류가 발생했어요');
+        Sentry.captureException(error);
+        if (error instanceof CustomException) {
+          toast.error(error.message);
+        } else {
+          toast.error('일시적인 오류가 발생했어요');
+        }
       },
     }
   );
@@ -84,7 +90,7 @@ export const AuthVerifyPage: React.FC = () => {
       },
       onError: (error) => {
         if (!(error instanceof FirebaseError)) return toast.error('일시적인 오류가 발생했어요');
-
+        Sentry.captureException(error);
         switch (error.code) {
           case 'auth/code-expired':
             return toast.error('이미 만료된 인증코드에요');

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { PieChart } from 'react-minimal-pie-chart';
 import { toast } from 'react-toastify';
 
+import * as Sentry from '@sentry/react';
 import { onValue, ref, set } from 'firebase/database';
 
 import SuccessPNG from '../../assets/emoji/success.png';
@@ -55,6 +56,7 @@ export const VotePage: React.FC = () => {
         toast.success('투표 제출이 완료되었어요!');
       },
       onError: (error) => {
+        Sentry.captureException(error);
         toast.error('투표 제출 중 오류가 발생했어요');
       },
     }

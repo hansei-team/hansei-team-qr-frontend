@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom';
 
+import * as Sentry from '@sentry/react';
 import { onAuthStateChanged, User } from 'firebase/auth';
 import { useSetRecoilState } from 'recoil';
 
@@ -17,7 +18,10 @@ const App: React.FC = () => {
   useEffect(() => {
     const handleOnAuthStateChanged = async (user: User) => {
       const data = await getUserData(user.uid);
-      if (data) setUser(data);
+      if (data) {
+        setUser(data);
+        Sentry.setUser({ username: data.name });
+      }
     };
 
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
