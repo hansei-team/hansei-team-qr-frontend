@@ -1,5 +1,6 @@
 export * from './AppLayout';
 export * from './Button';
+export * from './ErrorBoundaryFallback';
 export * from './EmojiCard';
 export * from './GlobalNavigationBar';
 export * from './PageLayout';
