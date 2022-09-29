@@ -2,11 +2,10 @@ import React from 'react';
 
 import * as S from './styled';
 
-export interface EmojiCardProps {
+export interface EmojiCardProps extends React.HTMLAttributes<HTMLDivElement> {
   emoji: string;
   text: [string, string];
   color: string;
-  style?: React.CSSProperties;
   isHover?: boolean;
   isImage?: boolean;
 }
@@ -18,8 +17,11 @@ export const EmojiCard: React.FC<EmojiCardProps> = ({
   style,
   isHover,
   isImage,
+
+  ...props
 }) => (
-  <S.EmojiCardContainer isHover={isHover} style={style}>
+  // eslint-disable-next-line react/jsx-props-no-spreading
+  <S.EmojiCardContainer isHover={isHover} {...props}>
     <S.EmojiWrapper color={color}>
       {isImage ? <S.EmojiImage src={emoji} width="24px" height="24px" /> : emoji}
     </S.EmojiWrapper>
