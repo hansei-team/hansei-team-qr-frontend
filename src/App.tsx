@@ -6,7 +6,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { useSetRecoilState } from 'recoil';
 
 import { getUserData } from './api';
-import { PageLayout } from './components';
+import { AppLayout, GlobalNavigationBar, PageLayout } from './components';
 import { auth } from './firebase';
 import { AuthVerifyPage, MainPage } from './pages';
 import { userAtom } from './store';
@@ -38,6 +38,18 @@ const App: React.FC = () => {
           }
         >
           <Route path="auth/verify" element={<AuthVerifyPage />} />
+        </Route>
+
+        <Route
+          element={
+            <AppLayout>
+              <Outlet />
+            </AppLayout>
+          }
+        >
+          <Route path="home" element={<PageLayout.Title>여기는 홈 페이지</PageLayout.Title>} />
+          <Route path="lottery" element={<PageLayout.Title>여기는 추첨 페이지</PageLayout.Title>} />
+          <Route path="vote" element={<PageLayout.Title>여기는 투표 페이지</PageLayout.Title>} />
         </Route>
       </Routes>
     </BrowserRouter>
