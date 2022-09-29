@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { onValue, ref, set } from 'firebase/database';
 
 import SuccessPNG from '../../assets/emoji/success.png';
-import { Button, EmojiCard, PageLayout } from '../../components';
+import { Button, EmojiCard, PageLayout, SuspenseFallback } from '../../components';
 import { auth, database } from '../../firebase';
 import { useRequest } from '../../hooks';
 
@@ -35,6 +35,7 @@ export const VotePage: React.FC = () => {
   const [isAlreadyVoted, setIsAlreadyVoted] = useState<boolean>(false);
   const [voteOptions, setVoteOptions] = useState<VoteOptions[]>([]);
   const [voteResults, setVoteResults] = useState<Record<string, number>>({});
+  const [init, setInit] = useState<boolean>(false);
   const BASE64_DECODER_URL = 'https://www.convertstring.com/ko/EncodeDecode/Base64Decode';
   const voteRef = ref(database, 'vote');
   const voteOptionsRef = ref(database, 'voteOptions');
@@ -88,7 +89,10 @@ export const VotePage: React.FC = () => {
   useEffect(() => {
     if (!auth.currentUser) return () => {};
 
-    const unsubscribeVote = onValue(voteRef, (snapshot) => setVote(snapshot.val()));
+    const unsubscribeVote = onValue(voteRef, (snapshot) => {
+      setVote(snapshot.val());
+      setInit(true);
+    });
     const unsubscribeVoteOptions = onValue(voteOptionsRef, (snapshot) => {
       const value = snapshot.val();
       const options = Object.keys(value)
@@ -135,6 +139,18 @@ export const VotePage: React.FC = () => {
       unsubscribeVoteResults();
     };
   }, [voteOptions]);
+
+  if (!init)
+    return (
+      <SuspenseFallback
+        withoutLayout
+        messages={[
+          '투표 정보를 불러오고 있어요',
+          '잠시만 기다려주세요',
+          '현재 접속자가 많아 조금 늦어지고 있어요',
+        ]}
+      />
+    );
 
   if (vote.showResult)
     return (
