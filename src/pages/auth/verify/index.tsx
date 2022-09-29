@@ -1,11 +1,11 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 import { FirebaseError } from 'firebase/app';
 import { ConfirmationResult, RecaptchaVerifier, signInWithPhoneNumber, User } from 'firebase/auth';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState } from 'recoil';
 
 import { createUserData, getUserData } from '../../../api';
 import { Button, PageLayout, TextField } from '../../../components';
@@ -34,7 +34,7 @@ export const AuthVerifyPage: React.FC = () => {
     confirmResult: ConfirmationResult;
     expiredAt: number;
   }>();
-  const setUser = useSetRecoilState(userAtom);
+  const [user, setUser] = useRecoilState(userAtom);
   const navigate = useNavigate();
 
   const { mutate: sendVerifySMS, isLoading: isSendingVerifySMS } = useRequest(
@@ -71,12 +71,12 @@ export const AuthVerifyPage: React.FC = () => {
       const { confirmResult, expiredAt } = verifyData;
       if (new Date().getTime() > expiredAt) throw new Error('이미 만료된 인증코드에요');
 
-      const { user } = await confirmResult.confirm(data.pinCode);
-      const userData = await getUserData(user.uid);
-      if (userData) return { data: userData, account: user };
+      const { user: account } = await confirmResult.confirm(data.pinCode);
+      const userData = await getUserData(account.uid);
+      if (userData) return { data: userData, account };
 
-      const newUserData = await createUserData(user.uid, data.name);
-      return { data: newUserData, account: user };
+      const newUserData = await createUserData(account.uid, data.name);
+      return { data: newUserData, account };
     },
     {
       onSuccess: ({ data, account }) => {
@@ -110,6 +110,10 @@ export const AuthVerifyPage: React.FC = () => {
 
     return '추첨 번호 받기';
   }, [isSubmitting, isCanSubmit]);
+
+  useEffect(() => {
+    if (user !== null) navigate('/home');
+  }, []);
 
   return (
     <S.PageContainer onSubmit={handleSubmit((data) => getLottery(data))}>
