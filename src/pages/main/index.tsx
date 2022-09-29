@@ -22,7 +22,7 @@ export const MainPage: React.FC = () => {
           <S.BrandText>한팀 QR</S.BrandText>
         </div>
       </S.OnBoardingItemContainer>
-      <Button onClick={handleGoogleLogin}>추첨 번호 받기</Button>
+      <Button onClick={handleGoogleLogin}>시작하기</Button>
     </S.PageContainer>
   );
 };

@@ -9,6 +9,7 @@ export const EmojiCardContainer = styled.div<{ isHover?: boolean }>(({ isHover }
   background: colors.foreground,
   borderRadius: '1.2rem',
   padding: '1.2rem',
+  cursor: 'pointer',
 
   ...(isHover && {
     background: colors.background,
@@ -33,13 +34,17 @@ export const EmojiImage = styled.img({});
 export const TextContainer = styled.div({
   flex: '1 1 auto',
   marginLeft: '1.8rem',
+
+  '& > p': {
+    margin: '0',
+  },
 });
 
 export const SmallText = styled.p({
   fontSize: '1.4rem',
   fontWeight: 500,
   color: '#51525B',
-  marginBottom: '0.5rem',
+  marginBottom: '0.5rem !important',
 });
 
 export const Text = styled.p({
