@@ -29,10 +29,10 @@ export const GlobalNavigationItemContainer = styled(NavLink)({
     transition: 'all 200ms',
   },
 
-  '&.active > div > svg:nth-child(1)': {
+  '&.active > div > svg:nth-of-type(1)': {
     opacity: 0,
   },
-  '&.active > div > svg:nth-child(2)': {
+  '&.active > div > svg:nth-of-type(2)': {
     opacity: 1,
   },
   '&.active > *': {
@@ -52,7 +52,7 @@ export const ItemIconWrapper = styled.div({
     transition: 'opacity 200ms',
   },
 
-  '& > svg:nth-child(2)': {
+  '& > svg:nth-of-type(2)': {
     opacity: 0,
   },
 });

@@ -15,7 +15,7 @@ export const GlobalNavigationBar: React.FC<GlobalNavigationBarProps> = ({ menu }
   <S.GlobalNavigationBarContainer>
     <S.GlobalNavigationBarItemListContainer>
       {menu.map(({ to, icon: Icon, activeIcon: ActiveIcon, text }) => (
-        <S.GlobalNavigationItemContainer to={to} end>
+        <S.GlobalNavigationItemContainer key={to} to={to} end>
           <S.ItemIconWrapper>
             <Icon />
             <ActiveIcon />
