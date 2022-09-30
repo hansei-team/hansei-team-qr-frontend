@@ -113,7 +113,7 @@ export const VotePage: React.FC = () => {
           setSelect(voteData.selected);
         } else {
           setIsAlreadyVoted(false);
-          setSelect(null);
+          // setSelect(null);
         }
       }
     );
