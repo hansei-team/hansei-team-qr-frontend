@@ -62,4 +62,4 @@
 
 |                     투표 공개 전                     |                     투표 진행 중                     |                    투표 결과 공개                    |
 | :--------------------------------------------------: | :--------------------------------------------------: | :--------------------------------------------------: |
-| <img src="./docs/features/vote-1.png" width="300px"> | <img src="./docs/features/vote-2.gif" width="300px"> | <img src="./docs/features/vote-3.png" width="300px"> |
+| <img src="./docs/features/vote-1.png" width="250px"> | <img src="./docs/features/vote-2.gif" width="250px"> | <img src="./docs/features/vote-3.png" width="250px"> |
